@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="@drawable/popwindow_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/takePhoto"
+            style="@style/bottom_pop_textview"
+            android:text="拍照"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+        <TextView
+            android:id="@+id/openPhotos"
+            style="@style/bottom_pop_textview"
+            android:layout_marginTop="1dp"
+            android:text="打开相册"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/popwindow_bg"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/cancel"
+            style="@style/bottom_pop_textview"
+            android:text="取消"
+            />
+    </LinearLayout>
+
+</LinearLayout>

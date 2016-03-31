@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    >
+
+    <com.chuangyuan.qdocument.view.MyViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/titlebar_bg2x"
+        >
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:id="@+id/first"
+            android:drawableTop="@drawable/first_selector_bg"
+            />
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/second"
+            android:button="@null"
+           android:drawableTop="@drawable/second_selector_bg"
+            />
+        <RadioButton
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/third"
+            android:button="@null"
+            android:drawableTop="@drawable/third_selector_bg"
+            />
+
+    </RadioGroup>
+
+
+
+</LinearLayout>

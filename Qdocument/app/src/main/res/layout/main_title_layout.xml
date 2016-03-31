@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/titlebar_bg2x"
+    >
+
+    <com.chuangyuan.qdocument.view.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/circleImageview"
+        android:src="@drawable/head"
+        />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_contactName"
+        android:text="CHUAN"
+        android:layout_toRightOf="@id/circleImageview"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_contactPhone"
+        android:text="18633333333"
+        android:layout_toRightOf="@id/circleImageview"
+        android:layout_below="@id/tv_contactName"
+        />
+    <Button
+        android:id="@+id/addFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加为好友"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.chuangyuan.qdocument.activity.VcodeSetActivity">
+
+    <include layout="@layout/up_titlebar_layout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入您的安全口令："
+        android:textColor="@color/textcolor"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="left"
+        />
+
+    <LinearLayout style="@style/edit_style"
+        android:layout_marginTop="3dp"
+        >
+        <EditText
+            android:id="@+id/et_vcode"
+            style="@style/edittext_style"
+            android:hint="请输入安全口令"
+            android:password="true"
+            />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请再次输入您的安全口令："
+        android:textColor="@color/textcolor"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="left"
+        />
+
+    <LinearLayout style="@style/edit_style"
+        android:layout_marginTop="3dp"
+        >
+        <EditText
+            android:id="@+id/et_vcode2"
+            style="@style/edittext_style"
+            android:hint="请再次输入安全口令"
+            android:password="true"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/ok_button_selector_bg"
+        />
+    <TextView
+
+        android:layout_gravity="left"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="注："
+        android:textColor="@color/textcolor"
+        android:textSize="24dp"
+        />
+    <TextView
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="       您的验证密码应该至少含有八位字符，含大写字母、小写字母和数字。我们强烈建议您的安全口令区别于登录密码。
+        "
+
+        />
+
+</LinearLayout>

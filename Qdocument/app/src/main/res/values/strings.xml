@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Qdocument</string>
+
+    <!-- TODO: Remove or change this placeholder test_contact -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_search">搜索</string>
+</resources>
