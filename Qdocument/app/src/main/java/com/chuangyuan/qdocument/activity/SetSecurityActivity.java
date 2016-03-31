@@ -88,7 +88,7 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
                     // 设置业务类型为注册
                     face.setParameter(SpeechConstant.WFR_SST, "reg");
                     // 设置auth_id根据每台机器的imei号
-                    face.setParameter(SpeechConstant.AUTH_ID, "create224");
+                    face.setParameter(SpeechConstant.AUTH_ID, "create225");
                     // 调用sendRequest(byte[] img, RequestListener listener)方法发送头像注册请求，img为图片的二进制数据，listener为处理注册结果的回调对象
                     face.sendRequest(mImageData, mRequestListener);
                     isTakePhoto = false;
@@ -101,7 +101,7 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
                     // 设置业务类型为验证
                     face.setParameter(SpeechConstant.WFR_SST, "verify");
                     // 设置auth_id
-                    face.setParameter(SpeechConstant.AUTH_ID, "create224");
+                    face.setParameter(SpeechConstant.AUTH_ID, "create225");
                     // 设置gid，由于一个auth_id下只有一个gid，所以设置了auth_id时则可以不用设置gid。但是当
                     // 没有设置auth_id时，必须设置gid
                     // 调用sendRequest(byte[] img, RequestListener listener)方法发送注册请求，img为图片的二进制数据，listener为处理注册结果的回调对象
@@ -179,7 +179,13 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
         if ("success".equals(obj.get("rst"))) {
             if (obj.getBoolean("verf")) {
                 ToastUtils.showToast(this, "通过验证，欢迎回来");
-                image.setImageResource(R.drawable.head);//成功后恢复默认头像。
+                //判断是否是从忘记vcode处跳转
+                boolean isResetVcode = getIntent().getBooleanExtra(Constant.ISRESETVCODE, false);
+                if(isResetVcode){
+                   //TODO-是的话就跳转到重置vcode的界面。
+                    ToastUtils.showToast(act,"跳转到重置vcode的界面");
+                }
+                finish();//自己销毁
             } else {
                 ToastUtils.showToast(this, "验证不通过");
             }

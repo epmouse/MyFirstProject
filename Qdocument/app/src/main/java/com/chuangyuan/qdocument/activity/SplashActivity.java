@@ -30,8 +30,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (sp.getBoolean(Constant.ISLOGINED, false)) {
                     //已登录过的话 ，检查vcode有没有设置
                     //TODO-检查vcode是否设置
-                    boolean isSetVcode=false;
-                    if(isSetVcode){
+                    if(sp.getBoolean(Constant.ISSETSUCCESS,false)){
                         //TODO-跳转到验证vcode的界面。
                         //验证完成，跳转到登陆界面，此逻辑应该在验证界面写，
                         intent = new Intent(ctx, VcodeVerifyActivity.class);

@@ -60,4 +60,8 @@ public class Constant {
      * 安全头像名称
      */
     public static final String SECURITY_ICONNAME = "securityIcon";
+    /**
+     * 表示是要修改vcode
+     */
+    public static final String ISRESETVCODE = "isResetVcode";
 }

@@ -83,7 +83,6 @@ public class LeftFragment extends Fragment {
             userPhoto.setImageBitmap(bitmap);
         } else {
             userPhoto.setImageResource(R.drawable.head);
-
         }
 
         setDrawerLayoutListener();//给drawerlayout设置打开和关闭的监听。
@@ -296,6 +295,7 @@ public class LeftFragment extends Fragment {
                 switch (position) {
                     case 0://设置安全头像
                         Intent intent = new Intent(getActivity(), SetSecurityActivity.class);
+                        intent.putExtra(Constant.ISRESETVCODE,false);//不是从重置vcode处跳转。
                         startActivity(intent);
                         break;
                     case 1:
