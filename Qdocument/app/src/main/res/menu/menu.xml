@@ -8,26 +8,26 @@
         Qdocument:showAsAction="ifRoom"
         >
         <menu>
-            <item android:id="@+id/submenu1"
-                android:title="Accept"
-                android:titleCondensed="Accept"
-                />
-            <item android:id="@+id/submenu2"
-                android:title="Cancel"
-                android:titleCondensed="Cancel"
-                />
-            <item android:id="@+id/submenu3"
-                android:title="Unread"
-                android:titleCondensed="Unread"
+            <!--<item android:id="@+id/submenu1"-->
+                <!--android:title="Accept"-->
+                <!--android:titleCondensed="Accept"-->
+                <!--/>-->
+            <!--<item android:id="@+id/submenu2"-->
+                <!--android:title="Cancel"-->
+                <!--android:titleCondensed="Cancel"-->
+                <!--/>-->
+            <!--<item android:id="@+id/submenu3"-->
+                <!--android:title="Unread"-->
+                <!--android:titleCondensed="Unread"-->
 
-                />
+                <!--/>-->
         </menu>
 
 
     </item>
     <item android:id="@+id/action_settings"
         android:icon="@drawable/title_selector_bg"
-        android:title="@string/action_search"
+        android:title="菜单"
         Qdocument:showAsAction="ifRoom"
         >
 

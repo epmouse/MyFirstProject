@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.chuangyuan.qdocument.R;
 import com.chuangyuan.qdocument.utils.Constant;
 import com.chuangyuan.qdocument.utils.LogUtils;
+import com.chuangyuan.qdocument.utils.PhotoInfoUtils;
 import com.chuangyuan.qdocument.utils.PhotoUtils;
 import com.chuangyuan.qdocument.utils.ToastUtils;
 import com.iflytek.cloud.ErrorCode;
@@ -49,20 +50,31 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
     private Context act;
     private byte[] mImageData;
     private FaceRequest face;
+    private boolean isResetVcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_security);
         act = this;
+        isResetVcode = getIntent().getBooleanExtra(Constant.ISRESETVCODE, false);
         //初始化人脸识别（科大讯飞），该功能用户需要时才启动，所以在该类中初始化，不在application初始化。
-        SpeechUtility.createUtility(act, SpeechConstant.APPID + "=56fa48cc");
+        SpeechUtility.createUtility(act, SpeechConstant.APPID + "=57031864");
         // 注意：此接口在非主进程调用会返回null对象，如需在非主进程使用语音功能，
         // 请使用参数：SpeechConstant.APPID +"=56fa48cc," + SpeechConstant.FORCE_LOGIN +"=true"。
         LogUtils.logInfoStar("初始化完成");
         face = new FaceRequest(act);
 
         ButterKnife.inject(this);
+        //加入是从重置vcode跳转则设置 注册按钮不可用,否则可用
+        if(isResetVcode){
+            upload_securityIcon.setEnabled(false);
+            verify.setEnabled(true);
+        }else{
+            upload_securityIcon.setEnabled(true);
+            verify.setEnabled(false);
+        }
+
         verify.setOnClickListener(this);
         take_securityIcon.setOnClickListener(this);
         upload_securityIcon.setOnClickListener(this);
@@ -88,7 +100,7 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
                     // 设置业务类型为注册
                     face.setParameter(SpeechConstant.WFR_SST, "reg");
                     // 设置auth_id根据每台机器的imei号
-                    face.setParameter(SpeechConstant.AUTH_ID, "create225");
+                    face.setParameter(SpeechConstant.AUTH_ID, "create"+ PhotoInfoUtils.getImei(this));
                     // 调用sendRequest(byte[] img, RequestListener listener)方法发送头像注册请求，img为图片的二进制数据，listener为处理注册结果的回调对象
                     face.sendRequest(mImageData, mRequestListener);
                     isTakePhoto = false;
@@ -101,7 +113,7 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
                     // 设置业务类型为验证
                     face.setParameter(SpeechConstant.WFR_SST, "verify");
                     // 设置auth_id
-                    face.setParameter(SpeechConstant.AUTH_ID, "create225");
+                    face.setParameter(SpeechConstant.AUTH_ID, "create"+ PhotoInfoUtils.getImei(this));
                     // 设置gid，由于一个auth_id下只有一个gid，所以设置了auth_id时则可以不用设置gid。但是当
                     // 没有设置auth_id时，必须设置gid
                     // 调用sendRequest(byte[] img, RequestListener listener)方法发送注册请求，img为图片的二进制数据，listener为处理注册结果的回调对象
@@ -180,10 +192,13 @@ public class SetSecurityActivity extends AppCompatActivity implements View.OnCli
             if (obj.getBoolean("verf")) {
                 ToastUtils.showToast(this, "通过验证，欢迎回来");
                 //判断是否是从忘记vcode处跳转
-                boolean isResetVcode = getIntent().getBooleanExtra(Constant.ISRESETVCODE, false);
+                //boolean isResetVcode = getIntent().getBooleanExtra(Constant.ISRESETVCODE, false);
                 if(isResetVcode){
                    //TODO-是的话就跳转到重置vcode的界面。
                     ToastUtils.showToast(act,"跳转到重置vcode的界面");
+                    Intent intent=new Intent(act,ResetVcodeActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 finish();//自己销毁
             } else {

@@ -64,4 +64,8 @@ public class Constant {
      * 表示是要修改vcode
      */
     public static final String ISRESETVCODE = "isResetVcode";
+    /**
+     * 记录当前打开的文件夹路径
+     */
+    public static String currFolderPath="currentFolderPath";
 }

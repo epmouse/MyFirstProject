@@ -1,9 +1,11 @@
 package com.chuangyuan.qdocument.fragment;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -220,6 +222,8 @@ public class LeftFragment extends Fragment {
                     return;
                 }
                 Uri uri = data.getData();
+
+                LogUtils.logInfoStar(uri+">>>>>>>>");
                 iv_userIcon.setImageURI(uri);//直接使用setImageURI即可。//TODO-有空余时间可做此优化
                 String path = FolderUtils.uri2Path(getActivity(), uri);
                 LogUtils.logInfoStar(path + "路径");
@@ -228,7 +232,7 @@ public class LeftFragment extends Fragment {
                 sp.edit().putString(Constant.PREPHOTOPATH, prePhotoPath).commit();
                 sp.edit().putString(Constant.TAKE_PHOTO_PATH, path).commit();
                //TODO-下面这行可用 setImageURI（uri）代替，节省代码。
-               // iv_userIcon.setImageBitmap(BitmapFactory.decodeFile(path));
+               //iv_userIcon.setImageBitmap(BitmapFactory.decodeFile(path));
 
                 break;
         }

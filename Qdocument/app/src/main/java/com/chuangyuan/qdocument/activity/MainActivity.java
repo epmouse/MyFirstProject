@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -63,32 +64,27 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private View popview;
     private ActionBar.LayoutParams mP;
-
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        /* //使用slidingPaneLayout
         setContentView(R.layout.activity_main_slidindpane);*/
-
         //使用drawerLayout
         setContentView(R.layout.activity_main_drawerlayout);
         ctx = this;
-
+        sp = getSharedPreferences("config", Context.MODE_PRIVATE);
         //初始化actionBar
         initActionBar();
-
 
         //初始化drawerlayout实现侧滑
         initDrawerLayout();
 
-
         /*//初始化slidingPaneLayout实现侧滑
         initSlidingPaneLayout();*/
 
-
         initPopupwindow();
-
     }
 
     /**
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initActionBar() {
         actionbar = getSupportActionBar();
-      actionbar.setDisplayUseLogoEnabled(false);//显示应用图标
+        actionbar.setDisplayUseLogoEnabled(false);//显示应用图标
 //        actionbar.setDisplayShowHomeEnabled(true);
         actionbar.setDisplayShowCustomEnabled(true);//自定义图标的显示
         actionbar.setDisplayShowHomeEnabled(false);//activity图标的显示
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 //判断drawerlayout的开合状态
                 if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     mDrawerLayout.closeDrawers();
-                   // StarAnimation(-0.5f, 0, 0, 0);//在点击的时候就开始做动画，效果比较好，但滑动时无法跟随。
+                    // StarAnimation(-0.5f, 0, 0, 0);//在点击的时候就开始做动画，效果比较好，但滑动时无法跟随。
                 } else {
                     mDrawerLayout.openDrawer(Gravity.LEFT);
                     //StarAnimation(0, -0.5f, 0, 0);//在点击的时候就开始做动画，效果比较好，但滑动时无法跟随。
@@ -261,8 +257,6 @@ public class MainActivity extends AppCompatActivity {
                 ToastUtils.showToast(this, "搜索");
                 break;
             case R.id.action_settings:
-                ToastUtils.showToast(this, "菜单");
-
                 popview = View.inflate(ctx, R.layout.popwindow_layout, null);
                 AnimationSet animationSet = new AnimationSet(false);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
@@ -307,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        //TODO-弹出对话输入框，输入文件名，输入成功后点击确定创建文件夹
+                        //弹出对话输入框，输入文件名，输入成功后点击确定创建文件夹
                         View dialogView = View.inflate(ctx, R.layout.createfolder_dialog_layout, null);
                         showMyDialog(dialogView, "创建文件夹", "创建", "取消");
                         popupWindow.dismiss();
@@ -339,10 +333,29 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String fileName = et_fileName.getText().toString();
-                        FolderUtils.createFolder(ctx, "/" + fileName);
-                        if (folderChangedListener != null) {
-                            folderChangedListener.onFolderChanged(fileName);
+                        //TODO-在此处添加打开的文件夹的路径
+
+                        String currentPath = sp.getString(Constant.currFolderPath, null);
+                        LogUtils.logInfoStar(currentPath + "当前所在路径");
+                        if (currentPath != null) {
+                            if (currentPath.equals(Constant.BASEPATH)) {
+                                FolderUtils.createFolder(ctx, "/" + fileName);
+
+                                if (folderChangedListener != null) {
+                                    folderChangedListener.onFolderChanged("/"+fileName);
+                                }
+                            } else {
+                                String currFolderName = currentPath.substring(currentPath.lastIndexOf("/"));
+                                LogUtils.logInfoStar(currFolderName + "当前文件夹名字");
+                                FolderUtils.createFolder(ctx, currFolderName + "/" + fileName);
+                                if (folderChangedListener != null) {
+                                    folderChangedListener.onFolderChanged(currFolderName + "/" + fileName);
+                                }
+                            }
                         }
+//                        if (folderChangedListener != null) {
+//                            folderChangedListener.onFolderChanged(fileName);
+//                        }
                     }
                 }).
                 setNegativeButton(negative, new DialogInterface.OnClickListener() {
@@ -379,8 +392,18 @@ public class MainActivity extends AppCompatActivity {
 
                     Uri uri = data.getData();
                     String filePath = FolderUtils.uri2Path(ctx, uri);
+                    if(filePath==null){
+                        ToastUtils.showToast(this,"请从系统图库中选择");
+                        return;
+                    }
                     File file = new File(filePath);
+                    String  currFolderPath= sp.getString(Constant.currFolderPath, null);
+                    if(currFolderPath.equals(Constant.BASEPATH)){
                     FolderUtils.copyFile(filePath, Constant.BASEPATH + "/" + file.getName());//复制文件到app
+                    }else{
+                    String currFolder = currFolderPath.substring(currFolderPath.lastIndexOf("/"));
+                    FolderUtils.copyFile(filePath, Constant.BASEPATH + currFolder+"/" + file.getName());//复制文件到app
+                    }
                     if (folderChangedListener != null) {
                         folderChangedListener.onFolderChanged(file.getName());
                     }

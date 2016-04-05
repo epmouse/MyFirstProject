@@ -5,15 +5,13 @@ import android.app.Application;
 import com.chuangyuan.qdocument.utils.FolderUtils;
 
 /**
- * Created by Administrator on 2016/3/22 0022.
+ * Created by Administrator on 2016/4/5 0005.
  */
-public class myapp extends Application {
-
-
+public class Myapp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化软件的时候先创建一个存储文件夹
         FolderUtils.createFolder(this,"");
+
     }
 }

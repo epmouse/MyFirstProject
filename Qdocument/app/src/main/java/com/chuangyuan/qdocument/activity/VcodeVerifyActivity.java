@@ -1,9 +1,14 @@
 package com.chuangyuan.qdocument.activity;
 
+import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +19,8 @@ import android.widget.TextView;
 
 import com.chuangyuan.qdocument.R;
 import com.chuangyuan.qdocument.utils.Constant;
+import com.chuangyuan.qdocument.utils.FolderUtils;
+import com.chuangyuan.qdocument.utils.LogUtils;
 import com.chuangyuan.qdocument.utils.PhotoUtils;
 import com.chuangyuan.qdocument.utils.ToastUtils;
 import com.chuangyuan.qdocument.view.CircleImageView;
@@ -27,10 +34,37 @@ public class VcodeVerifyActivity extends AppCompatActivity {
     private Context ctx;
     private SharedPreferences sp;
     private TextView tv_forgetVcode;
-    @Override 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vcode_verify);
+
+        //接收系统分享功能打开后传的值
+        Intent intent = getIntent();
+        String type = intent.getType();
+        LogUtils.logInfoStar(type+"文件类型");
+        ClipData clipData = intent.getClipData();
+        if(clipData!=null){
+           String clipStr= clipData.toString();
+            LogUtils.logInfoStar(clipStr.toString());
+            String realUri = null;
+            if("image/*".equalsIgnoreCase(type)){
+            realUri= clipStr.substring(clipStr.indexOf("content"), clipStr.indexOf("} }"));
+            }else if("text/plain".equalsIgnoreCase(type)){
+            realUri = clipStr.substring(clipStr.indexOf("file"), clipStr.indexOf("} }"));
+            }
+            Uri uri = Uri.parse(realUri);
+            String path = FolderUtils.uri2Path(this, uri);
+            LogUtils.logInfoStar(path + "返回的路径");
+            String fileName = path.substring(path.lastIndexOf("/"));
+            LogUtils.logInfoStar(fileName+"文件名");
+            FolderUtils.copyFile(path, Constant.BASEPATH + "/" + fileName);
+            LogUtils.logInfoStar("返回的值" + uri);
+        }
+
+//TODO-取别的应用穿过来的值
+
         ctx=this;
         sp=getSharedPreferences("config",MODE_PRIVATE);
         CircleImageView userPhoto= (CircleImageView) findViewById(R.id.userphoto);

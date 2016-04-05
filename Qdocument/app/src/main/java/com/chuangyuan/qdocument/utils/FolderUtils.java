@@ -117,8 +117,10 @@ public class FolderUtils {
                 Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
                 if ( null != cursor ) {
                     if ( cursor.moveToFirst() ) {
-                        //int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                        if(index==-1){
+                        index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        }
                         if ( index > -1 ) {
                             data = cursor.getString( index );
                         }
@@ -308,4 +310,34 @@ public class FolderUtils {
                 ? true
                 : folder.mkdirs();
     }
+
+
+    /**
+     * 递归删除文件和文件夹
+     *
+     * @param file
+     *            要删除的根目录
+     */
+    public static void DeleteFile(File file) {
+       if(!file.exists()){
+           return;
+       }
+            if (file.isFile()) {
+                file.delete();
+                return;
+            }
+            if (file.isDirectory()) {
+                File[] childFile = file.listFiles();
+                if (childFile == null || childFile.length == 0) {
+                    file.delete();
+                    return;
+                }
+                for (File f : childFile) {
+                    DeleteFile(f);
+                }
+                file.delete();
+            }
+        }
+
+
 }
